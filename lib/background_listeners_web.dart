@@ -34,5 +34,7 @@ class BackgroundListenersWeb extends BackgroundListenersPlatform {
 
   /// Returns a [String] containing the version of the platform.
   @override
-  Future<void> isConnected() async {}
+  Future<bool> isConnected() async {
+    return false;
+  }
 }

@@ -7,5 +7,5 @@ class BackgroundListeners {
 
   Future<void> showBanner() => BackgroundListenersPlatform.instance.showBanner();
 
-  Future<void> isConnected() => BackgroundListenersPlatform.instance.isConnected();
+  Future<bool> isConnected() => BackgroundListenersPlatform.instance.isConnected();
 }
