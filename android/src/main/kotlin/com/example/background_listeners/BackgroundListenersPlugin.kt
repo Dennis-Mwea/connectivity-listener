@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -57,11 +58,13 @@ class BackgroundListenersPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "hideBanner" -> {
+                noInternetBar.noInternet.startAnimation(anim(false))
                 noInternetBar.noInternet.visibility = View.GONE
                 result.success(true)
             }
             "showBanner" -> {
                 if (!viewModel.isDeviceOnline()) {
+                    noInternetBar.noInternet.startAnimation(anim(true))
                     noInternetBar.noInternet.visibility = View.VISIBLE
                 }
                 result.success(true)
@@ -120,13 +123,21 @@ class BackgroundListenersPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
 
     private fun render(state: NetworkStatusState) {
         if (state == NetworkStatusState.NetworkStatusDisconnected) {
-            val enterAnim = AnimationUtils.loadAnimation(context, R.anim.enter_from_bottom)
-            noInternetBar.noInternet.startAnimation(enterAnim)
+            noInternetBar.noInternet.startAnimation(anim(true))
         } else {
-            val exitAnim = AnimationUtils.loadAnimation(context, R.anim.exit_to_bottom)
-            noInternetBar.noInternet.startAnimation(exitAnim)
+            if (noInternetBar.noInternet.visibility == View.VISIBLE) {
+                noInternetBar.noInternet.startAnimation(anim(false))
+            }
         }
+        Log.d("BackgroundListenersPlugin", "Current visibility setting: ${noInternetBar.noInternet.visibility}")
         noInternetBar.noInternet.visibility =
             if (state == NetworkStatusState.NetworkStatusDisconnected) View.VISIBLE else View.GONE
+    }
+
+    private fun anim(enter: Boolean) : Animation {
+        return when (enter) {
+            true -> AnimationUtils.loadAnimation(context, R.anim.enter_from_bottom)
+            false -> AnimationUtils.loadAnimation(context, R.anim.exit_to_bottom)
+        }
     }
 }
