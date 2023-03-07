@@ -10,6 +10,9 @@ class MockBackgroundListenersPlatform with MockPlatformInterfaceMixin implements
 
   @override
   Future<void> hideBanner() async {}
+
+  @override
+  Future<void> showBanner() async {}
 }
 
 void main() {

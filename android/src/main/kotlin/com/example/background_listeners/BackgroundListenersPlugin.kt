@@ -57,6 +57,11 @@ class BackgroundListenersPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "hideBanner" -> noInternetBar.noInternet.visibility = View.GONE
+            "showBanner" -> {
+                if (noInternetBar.noInternet.visibility == View.GONE && !viewModel.isDeviceOnline()) {
+                    noInternetBar.noInternet.visibility = View.VISIBLE
+                }
+            }
             "getPlatformVersion" -> result.success("Android ${android.os.Build.VERSION.RELEASE}")
             else -> result.notImplemented()
         }

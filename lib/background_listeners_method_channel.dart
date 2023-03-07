@@ -14,4 +14,7 @@ class MethodChannelBackgroundListeners extends BackgroundListenersPlatform {
 
   @override
   Future<void> hideBanner() async => await methodChannel.invokeMethod<String>('hideBanner');
+
+  @override
+  Future<void> showBanner() async => await methodChannel.invokeMethod<String>('showBanner');
 }
