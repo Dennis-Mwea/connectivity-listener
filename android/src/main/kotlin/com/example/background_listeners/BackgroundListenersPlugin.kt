@@ -58,7 +58,7 @@ class BackgroundListenersPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
         when (call.method) {
             "hideBanner" -> noInternetBar.noInternet.visibility = View.GONE
             "showBanner" -> {
-                if (noInternetBar.noInternet.visibility == View.GONE && !viewModel.isDeviceOnline()) {
+                if (!viewModel.isDeviceOnline()) {
                     noInternetBar.noInternet.visibility = View.VISIBLE
                 }
             }
