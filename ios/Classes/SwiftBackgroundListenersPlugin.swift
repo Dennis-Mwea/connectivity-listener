@@ -2,6 +2,8 @@ import Flutter
 import UIKit
 
 public class SwiftBackgroundListenersPlugin: NSObject, FlutterPlugin {
+    static var label: PaddingLabel = PaddingLabel()
+    
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "background_listeners", binaryMessenger: registrar.messenger())
         let instance = SwiftBackgroundListenersPlugin()
@@ -10,9 +12,9 @@ public class SwiftBackgroundListenersPlugin: NSObject, FlutterPlugin {
         let rootViewController = UIApplication.shared.delegate!.window!!.rootViewController!
         let rootView = rootViewController.view!
         
-        let label = getLabel()
+        setAttributes()
         rootView.addSubview(label)
-        addLabelConstraints(label: label, rootView: rootView)
+        addLabelConstraints(rootView: rootView)
         
         NetworkManager.sharedInstance.observeNetworkStatusChanged { status in
             label.isHidden = status
@@ -20,11 +22,16 @@ public class SwiftBackgroundListenersPlugin: NSObject, FlutterPlugin {
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        result("iOS " + UIDevice.current.systemVersion)
+        if (call.method == "getPlatformVersion") {
+            result("iOS " + UIDevice.current.systemVersion)
+        } else if (call.method == "hideBanner") {
+            SwiftBackgroundListenersPlugin.label.isHidden = true
+        } else {
+            result("UnImplemented Error")
+        }
     }
     
-    static func getLabel() -> PaddingLabel {
-        let label = PaddingLabel()
+    static func setAttributes() {
         label.paddingTop = 8
         label.paddingLeft = 16
         label.paddingRight = 16
@@ -41,11 +48,9 @@ public class SwiftBackgroundListenersPlugin: NSObject, FlutterPlugin {
         label.font = UIFont(name: label.font.fontName, size: 16)
         label.baselineAdjustment = .alignCenters
         label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
     }
     
-    static func addLabelConstraints(label: UILabel, rootView: UIView) {
+    static func addLabelConstraints(rootView: UIView) {
         let horizontalConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: rootView, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: 0)
         let verticalConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: rootView, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1, constant: 0)
         let widthConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: rootView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: 0)

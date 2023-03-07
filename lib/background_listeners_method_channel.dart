@@ -10,8 +10,8 @@ class MethodChannelBackgroundListeners extends BackgroundListenersPlatform {
   final methodChannel = const MethodChannel('background_listeners');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
-  }
+  Future<String?> getPlatformVersion() async => await methodChannel.invokeMethod<String>('getPlatformVersion');
+
+  @override
+  Future<void> hideBanner() async => await methodChannel.invokeMethod<String>('hideBanner');
 }

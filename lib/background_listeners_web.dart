@@ -23,4 +23,8 @@ class BackgroundListenersWeb extends BackgroundListenersPlatform {
     final version = html.window.navigator.userAgent;
     return version;
   }
+
+  /// Returns a [String] containing the version of the platform.
+  @override
+  Future<void> hideBanner() async {}
 }

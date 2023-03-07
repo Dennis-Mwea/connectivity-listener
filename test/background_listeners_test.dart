@@ -1,15 +1,15 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:background_listeners/background_listeners.dart';
-import 'package:background_listeners/background_listeners_platform_interface.dart';
 import 'package:background_listeners/background_listeners_method_channel.dart';
+import 'package:background_listeners/background_listeners_platform_interface.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockBackgroundListenersPlatform
-    with MockPlatformInterfaceMixin
-    implements BackgroundListenersPlatform {
-
+class MockBackgroundListenersPlatform with MockPlatformInterfaceMixin implements BackgroundListenersPlatform {
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<void> hideBanner() async {}
 }
 
 void main() {
