@@ -26,10 +26,14 @@ public class SwiftBackgroundListenersPlugin: NSObject, FlutterPlugin {
             result("iOS " + UIDevice.current.systemVersion)
         } else if (call.method == "hideBanner") {
             SwiftBackgroundListenersPlugin.label.isHidden = true
+            result(true)
         } else if (call.method == "showBanner") {
             if (!NetworkManager.sharedInstance.isConnected) {
                 SwiftBackgroundListenersPlugin.label.isHidden = false
             }
+            result(true)
+        } else if (call.method == "isConnected") {
+            result(NetworkManager.sharedInstance.isConnected)
         } else {
             result("UnImplemented Error")
         }

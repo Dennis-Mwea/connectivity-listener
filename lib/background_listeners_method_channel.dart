@@ -17,4 +17,7 @@ class MethodChannelBackgroundListeners extends BackgroundListenersPlatform {
 
   @override
   Future<void> showBanner() async => await methodChannel.invokeMethod<String>('showBanner');
+
+  @override
+  Future<void> isConnected() async => await methodChannel.invokeMethod<String>('isConnected');
 }

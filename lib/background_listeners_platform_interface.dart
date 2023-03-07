@@ -34,4 +34,8 @@ abstract class BackgroundListenersPlatform extends PlatformInterface {
   Future<void> showBanner() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<void> isConnected() {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
 }

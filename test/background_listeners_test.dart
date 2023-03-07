@@ -13,6 +13,9 @@ class MockBackgroundListenersPlatform with MockPlatformInterfaceMixin implements
 
   @override
   Future<void> showBanner() async {}
+
+  @override
+  Future<void> isConnected() async {}
 }
 
 void main() {
